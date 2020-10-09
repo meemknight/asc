@@ -1,6 +1,6 @@
 .data
 
-	msg: .asciz "test\n"
+	msg: .asciz "test2\n"
 
 .text
 
@@ -11,7 +11,7 @@ _start:
 	mov $4, %eax
 	mov $1, %ebx
 	mov $msg, %ecx
-	mov $6, %edx
+	mov $7, %edx
 	int $0x80
 
 	mov $1, %eax
