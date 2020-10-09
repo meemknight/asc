@@ -1,4 +1,2 @@
 
-*/*         #ignore all files in each directory
-!*/*.asm      #unignore .c files in each directory
-!.gitignore #unignore .gitignore
+.o
