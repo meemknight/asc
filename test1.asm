@@ -1,6 +1,6 @@
 .data
 
-	msg: .asciz "test2\n"
+	msg: .asciz "Hello\n"
 
 .text
 
