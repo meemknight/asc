@@ -23,12 +23,12 @@ ZERO:   .long 0
 roleNamesHost:  .asciz "host"
 roleNamesSwitch:	        .asciz "switch"
 roleNamesSwitchMall:	        .asciz "switch malitios"
-roleNamesController:	        .asciz "controller logic"
+roleNamesController:	        .asciz "controller"
 
 roleNamesVector: .long roleNamesHost, roleNamesSwitch, roleNamesSwitchMall, roleNamesController
 
-printSwitchM: .asciz "switch malitios index %d: "
-printIndex: .asciz "%s index %d; "
+printSwitchM: .asciz "switch malitios index %d:"
+printIndex: .asciz " %s index %d;"
 
 role_host:               .long 1
 role_switch:             .long 2
