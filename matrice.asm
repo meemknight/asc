@@ -60,7 +60,7 @@ main:
 	pop %ecx
 	loop _l2
 	
-	
+
 _exit:
 
 	push $printNl
