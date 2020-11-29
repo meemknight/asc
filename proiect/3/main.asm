@@ -43,10 +43,10 @@ j: .long 0
 
 main:
 
-mov $1, %eax
+mov $0, %eax
 mov %eax, a
 
-mov $1, %eax
+mov $10, %eax
 mov %eax, b
 
 #;queue[0] = a;
@@ -207,19 +207,11 @@ je _whileEnd1
 jmp _l1
 _whileEnd1:
 
-mov size, %ecx
-mov $1, %eax
+
 lea visited, %edx
+mov b, %ebx
 
-_l4:
-
-dec %ecx
-mov (%edx, %ecx, 4), %ebx
-inc %ecx
-
-and %ebx, %eax
-
-loop _l4
+movl (%edx, %ebx, 4), %eax
 
 cmp %eax, ONE
 je _yes
