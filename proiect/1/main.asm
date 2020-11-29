@@ -20,12 +20,22 @@ i:      .long 0
 j:      .long 0
 ZERO:   .long 0
 
+roleNamesHost:  .asciz "host"
+roleNamesSwitch:	        .asciz "switch"
+roleNamesSwitchMall:	        .asciz "switch malitios"
+roleNamesController:	        .asciz "controller logic"
+
+roleNamesVector: .long roleNamesHost, roleNamesSwitch, roleNamesSwitchMall, roleNamesController
+
 printSwitchM: .asciz "switch malitios index %d: "
+printIndex: .asciz "%s index %d; "
 
 role_host:               .long 1
 role_switch:             .long 2
 role_switchMalitios:     .long 3
 role_controllerLogic:    .long 4
+
+currentRole: .long 0
 
 .text
 
@@ -75,9 +85,24 @@ main:
                     cmp %ecx, ZERO
 
                     je _notPrint
+                        
+
+                        #;[roles[j]-1]
+                        lea roles, %edx
+                        mov j, %ebx
+                        mov (%edx, %ebx, 4), %eax
+                        dec %eax
+                        mov %eax, currentRole
+
+                        lea roleNamesVector, %edx
+                        mov currentRole, %eax
+                        mov (%edx, %eax, 4), %edx
+
                         push j
-                        push $printFormat
+                        push %edx
+                        push $printIndex
 		                call printf
+		                pop %ebx
 		                pop %ebx
 		                pop %ebx
                     _notPrint:
