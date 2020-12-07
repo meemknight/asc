@@ -1,3 +1,7 @@
 #!/bin/sh
 ./cbuild.sh main
-./main
+
+cp ./main.asm ./sourcesx86
+
+./main < ./input.txt
+

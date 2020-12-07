@@ -31,6 +31,12 @@ visited:    .long 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 currentNode:.long 0
 columnIndex:.long 0
 
+//problema 3 specific
+readText: .asciz "rovvya"
+printString: .asciz "%s"
+letterA: .byte 97
+diffInLetters: .byte 26
+
 a: .long 0
 b: .long 0
 
@@ -66,7 +72,7 @@ movl $1, (%edx, %eax, 4)
 
 #;remove bad connections
 movl size, %ecx
-_for1Start:
+_3for1Start:
 
 #;ecx : 11 10 9 ... 1
     push %ecx
@@ -77,10 +83,10 @@ _for1Start:
     mov (%edx, %ecx, 4) ,%ecx
     mov $3, %eax
     cmp %eax, %ecx
-    jne _l5
+    jne _3l5
 
     movl size, %ecx
-    _for2Start:
+    _3for2Start:
     mov %ecx, %eax
     dec %eax
     mov %eax, j
@@ -106,20 +112,20 @@ _for1Start:
     movl $0, (%edx, %eax, 4)
 
 
-    loop _for2Start
+    loop _3for2Start
 
-    _l5:
+    _3l5:
     pop %ecx
-loop _for1Start
+loop _3for1Start
 
 
 
 #;while (queueIdx != queueLen)
-_l1:
+_3l1:
 mov queueIdx, %eax
 mov queueLen, %ebx
 cmp %eax, %ebx
-je _whileEnd1
+je _3whileEnd1
 
     #;int currentNode = queue[queueIdx];
     lea queue, %edx
@@ -137,27 +143,17 @@ je _whileEnd1
     mov currentNode, %eax
     movl (%edx, %eax, 4), %ebx
     dec %ebx
-    jnz _l2
-
-        #;printf("%d ", currentNode);
-        push currentNode
-        push $printF
-        call printf
-        pop %ebx
-        pop %ebx
-
-    _l2:
 
     #;int columnIndex = 0;
     xor %eax, %eax
     mov %eax, columnIndex
 
     #;while (columnIndex < N)
-    _whileStart:
+    _3whileStart:
     mov columnIndex, %eax
     mov size, %ebx
     cmp %ebx, %eax
-    jge _l3
+    jge _3l3
 
 		#;if (graph[currentNode][columnIndex] == 1)
         #;use eax to calculate pos
@@ -169,14 +165,14 @@ je _whileEnd1
         lea mat, %edx
         movl (%edx, %eax, 4), %ecx
         dec %ecx
-        jnz _whileEnd2
+        jnz _3whileEnd2
 
         #;if (visited[columnIndex] != 1)
         lea visited, %edx
         mov columnIndex, %eax
         movl (%edx, %eax, 4), %ecx
         dec %ecx
-        jz _whileEnd2
+        jz _3whileEnd2
 
             #;queue[queueLen] = columnIndex;
             mov columnIndex, %ebx
@@ -194,18 +190,18 @@ je _whileEnd1
             mov columnIndex, %eax
             movl $1, (%edx, %eax, 4)
 
-    _whileEnd2:    
+    _3whileEnd2:    
 
         #;columnIndex
         mov columnIndex, %eax
         inc %eax
         mov %eax, columnIndex
 
-    jmp _whileStart
-    _l3:
+    jmp _3whileStart
+    _3l3:
 
-jmp _l1
-_whileEnd1:
+jmp _3l1
+_3whileEnd1:
 
 
 lea visited, %edx
@@ -214,21 +210,46 @@ mov b, %ebx
 movl (%edx, %ebx, 4), %eax
 
 cmp %eax, ONE
-je _yes
+je _3yes
 
-_no:
+_3no:
 
-    push $printNo
-	call printf
-	pop %ebx
+    #//unsafe connection
 
-jmp _exit
-_yes:
+    mov $0 ,%ecx
 
-    push $printYes
-	call printf
-	pop %ebx
+    _3beginTextConvert:
+    
+    lea readText, %edx
+    movb (%edx, %ecx, 1), %al
 
+    cmp %al, ZERO
+    je _3doneTextConvert
+
+    addb $-10, %al
+
+    #// al < 'a'
+    cmpb letterA, %al
+    jge _3noRound
+
+    addb diffInLetters, %al
+
+    _3noRound:
+
+    movb %al, (%edx, %ecx, 1)
+
+    inc %ecx
+    jmp _3beginTextConvert
+
+    _3doneTextConvert:
+
+_3yes:
+
+    push $readText
+    push $printString
+    call printf
+    pop %ebx
+    pop %ebx
 
 _exit:
 

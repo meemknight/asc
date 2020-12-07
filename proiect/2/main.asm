@@ -18,7 +18,7 @@ printNl: .asciz "\n"
 printF: .asciz "host index %d; "
 
 printYes: .asciz "\nYes"
-printNo: .asciz "\nNod"
+printNo: .asciz "\nNo"
 
 ZERO:   .long 0
 ONE:   .long 1
